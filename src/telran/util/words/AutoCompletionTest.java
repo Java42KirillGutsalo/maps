@@ -34,8 +34,13 @@ class AutoCompletionTest {
 		}
 		@Test
 		void testRemoveIf() {
-			
+			if (autoCompletion instanceof AutoCompletionMapImpl) {
+			int countExp = 2;
+			int countActual = ((AutoCompletionMapImpl)autoCompletion).removeIf(w -> w.length() <= 2);
+			assertEquals(countExp, countActual);
+			String wordsStartABAfterRemoving[] = {"ab123","abbbb","abcdef","ABd","ablmn"};
+			assertIterableEquals(Arrays.asList(wordsStartABAfterRemoving), autoCompletion.getCompletionOptions("ab"));
+			}
 		}
-
 
 }
