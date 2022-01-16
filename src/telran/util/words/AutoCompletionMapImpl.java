@@ -13,20 +13,30 @@ HashMap<Character, TreeSet<String>> words = new HashMap<>();//key - first a char
  * with applying the method computeIfAbsent
  */
 public boolean addWord(String word) {
-	
-	// TODO Auto-generated method stub
-	return false;
+	return words.isEmpty() ? false : words.computeIfAbsent(getKey(word), t -> 
+	new TreeSet<>(String.CASE_INSENSITIVE_ORDER)).add(word);
+}
+
+private Character getKey(String word) {
+	return word.toLowerCase().charAt(0);
 }
 
 @Override
 public boolean removeWord(String word) {
-	// TODO Auto-generated method stub
-	return false;
+	return words.isEmpty() ? false : removeNotEmpty(word);
+}
+
+private boolean removeNotEmpty(String word) {
+	TreeSet<String> treeSet = words.get(getKey(word));
+	return treeSet == null ? false : treeSet.remove(word);
 }
 
 @Override
 public Iterable<String> getCompletionOptions(String prefix) {
-	// TODO Auto-generated method stub
+	if(prefix.isEmpty()) {
+		return new TreeSet<String>();
+	}
+	TreeSet<String> treeSet =  words.get(getKey(prefix));
 	return null;
 }
 /**
